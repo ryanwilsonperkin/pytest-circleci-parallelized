@@ -36,7 +36,7 @@ def get_class_name(item):
 
 
 def filter_tests_with_circleci(test_list):
-    circleci_input = bytes("\n".join(test_list))
+    circleci_input = "\n".join(test_list).encode("utf-8")
     p = subprocess.Popen(
         [
             "circleci",
