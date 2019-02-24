@@ -1,0 +1,30 @@
+version: 2.1
+
+jobs:
+  test:
+    docker:
+      - image: circleci/python:3.7
+    steps:
+      - checkout
+      - run: sudo pip install tox
+      - run: tox
+      - store_artifacts:
+          path: /tmp/test-reports
+          destination: test-reports
+  deploy:
+    docker:
+      - image: circleci/python:3.7
+    steps:
+      - checkout
+      - run: sudo pip install twine
+      - run: python setup.py sdist
+      - run: twine upload --skip-existing dist/*
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - test
+      - deploy:
+          requires:
+            - test
