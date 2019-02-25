@@ -1,6 +1,7 @@
 def test_with_circleci_parallelize(testdir):
     testdir.makepyfile(
         test_fast_slow_classes="""
+import time
 import unittest
 
 class SlowTestCase(unittest.TestCase):
@@ -13,7 +14,7 @@ class FastTestCase1(unittest.TestCase):
         time.sleep(1)
         assert True
 
-class FastTestCase2(unittest.TestCase)
+class FastTestCase2(unittest.TestCase):
     def test_something(self):
         time.sleep(1)
         """
