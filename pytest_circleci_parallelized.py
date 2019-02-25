@@ -56,7 +56,9 @@ def filter_tests_with_circleci(test_list):
         stdout=subprocess.PIPE,
     )
     circleci_output, _ = p.communicate(circleci_input)
-    return [line.strip() for line in circleci_output.decode("utf-8").split("\n")]
+    return [
+        line.strip() for line in circleci_output.decode("utf-8").strip().split("\n")
+    ]
 
 
 def pytest_collection_modifyitems(session, config, items):
