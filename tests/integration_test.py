@@ -30,7 +30,7 @@ class FastTestCase2(unittest.TestCase):
         result.stdout.fnmatch_lines(["*SlowTestCase::test_something PASSED*"])
     elif "running 2 items" in result.stdout.str():
         # If the node ran two items it should be the fast ones
-        result.stdout.fnmatch_lines(
+        result.stdout.fnmatch_lines_random(
             [
                 "*FastTestCase1::test_something PASSED*"
                 "*FastTestCase2::test_something PASSED*"
