@@ -8,7 +8,7 @@ Parallelize pytest across CircleCI workers.
 
 ## Features
 
-Leverage the builtin parallelism of CircleCI to run your test suites. Call `pytest` with the `--circleci-parallelize` flag to automatically filter tests through the `circleci tests split` utility.
+Leverage the builtin parallelism of CircleCI to run your test suites. Call `pytest` with the `--circleci-parallelize` flag to automatically split tests amongst nodes using the `circleci tests split` utility.
 
 Read more about CircleCI test splitting [here][circleci-test-splitting].
 
