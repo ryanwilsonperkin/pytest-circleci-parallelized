@@ -23,10 +23,10 @@ jobs:
       - run: sudo pip install tox
       - run: tox -e integration
       - store_artifacts:
-          path: /tmp/test-reports
-          destination: test-reports
+          path: /tmp/integration-test-reports
+          destination: integration-test-reports
       - store_test_results:
-          path: /tmp/test-reports
+          path: /tmp/integration-test-reports
   deploy:
     docker:
       - image: circleci/python:3.7

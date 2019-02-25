@@ -20,7 +20,11 @@ class FastTestCase2(unittest.TestCase):
         """
     )
 
-    result = testdir.runpytest("-v", "--circleci-parallelize")
+    result = testdir.runpytest(
+        "-v",
+        "--circleci-parallelize",
+        "--junitxml=/tmp/integration-test-reports/junit.xml",
+    )
     if "running 1 items" in result.stdout.str():
         # If the node only ran one item it should be the slow one
         result.stdout.fnmatch_lines(["*SlowTestCase::test_something PASSED*"])
