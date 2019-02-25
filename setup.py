@@ -19,7 +19,7 @@ setuptools.setup(
     license="MIT",
     url="https://github.com/ryanwilsonperkin/pytest-circleci-parallelized",
     description="Parallelize pytest across CircleCI workers.",
-    long_description=read("README.rst"),
+    long_description=read("README.md"),
     py_modules=["pytest_circleci_parallelized"],
     python_requires=">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*",
     install_requires=["pytest"],
