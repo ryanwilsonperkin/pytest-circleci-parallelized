@@ -16,8 +16,15 @@ def pytest_addoption(parser):
     )
 
 
+def circleci_parallelized_enabled(config):
+    return config.getoption("circleci_parallelize")
+
+
 def pytest_report_collectionfinish(config, startdir, items):
-    return "running {} items due to CircleCI parallelism".format(len(items))
+    if circleci_parallelized_enabled(config):
+        return "running {} items due to CircleCI parallelism".format(len(items))
+    else:
+        return ""
 
 
 def get_class_name(item):
@@ -53,6 +60,9 @@ def filter_tests_with_circleci(test_list):
 
 
 def pytest_collection_modifyitems(session, config, items):
+    if not circleci_parallelized_enabled(config):
+        return
+
     class_mapping = collections.defaultdict(list)
     for item in items:
         class_name = get_class_name(item)
