@@ -1,0 +1,48 @@
+version: 2.1
+
+jobs:
+  unit-test:
+    docker:
+      - image: circleci/python:3.7
+    steps:
+      - checkout
+      - run: sudo pip install tox
+      - run: tox
+      - store_artifacts:
+          path: /tmp/test-reports
+          destination: test-reports
+      - store_test_results:
+          path: /tmp/test-reports
+          unit-test:
+  integration-test:
+    parallelism: 2
+    docker:
+      - image: circleci/python:3.7
+    steps:
+      - checkout
+      - run: sudo pip install tox
+      - run: tox -e integration
+      - store_artifacts:
+          path: /tmp/integration-test-reports
+          destination: integration-test-reports
+      - store_test_results:
+          path: /tmp/integration-test-reports
+  deploy:
+    docker:
+      - image: circleci/python:3.7
+    steps:
+      - checkout
+      - run: sudo pip install twine
+      - run: python setup.py sdist
+      - run: twine upload --skip-existing dist/*
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - unit-test
+      - integration-test
+      - deploy:
+          requires:
+            - unit-test
+            - integration-test
