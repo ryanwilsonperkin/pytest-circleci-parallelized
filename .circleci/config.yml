@@ -1,13 +1,27 @@
 version: 2.1
 
 jobs:
-  test:
+  unit-test:
     docker:
       - image: circleci/python:3.7
     steps:
       - checkout
       - run: sudo pip install tox
       - run: tox
+      - store_artifacts:
+          path: /tmp/test-reports
+          destination: test-reports
+      - store_test_results:
+          path: /tmp/test-reports
+          unit-test:
+  integration-test:
+    parallelism: 2
+    docker:
+      - image: circleci/python:3.7
+    steps:
+      - checkout
+      - run: sudo pip install tox
+      - run: tox -e integration
       - store_artifacts:
           path: /tmp/test-reports
           destination: test-reports
@@ -26,7 +40,9 @@ workflows:
   version: 2
   test:
     jobs:
-      - test
+      - unit-test
+      - integration-test
       - deploy:
           requires:
-            - test
+            - unit-test
+            - integration-test
