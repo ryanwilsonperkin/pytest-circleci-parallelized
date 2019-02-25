@@ -32,15 +32,15 @@ def test_help_message(testdir):
 def test_with_circleci_parallelize(testdir):
     testdir.makepyfile(
         """
-        import unittest
-        
-        class IncludedTestCase(unittest.TestCase):
-            def test_something(self):
-                assert True
-        
-        class ExcludedTestCase(unittest.TestCase):
-            def test_something(self):
-                assert True
+import unittest
+
+class IncludedTestCase(unittest.TestCase):
+    def test_something(self):
+        assert True
+
+class ExcludedTestCase(unittest.TestCase):
+    def test_something(self):
+        assert True
         """
     )
     result = testdir.runpytest("--circleci-parallelize")
@@ -54,15 +54,15 @@ def test_with_circleci_parallelize(testdir):
 def test_without_circleci_parallelize(testdir):
     testdir.makepyfile(
         """
-        import unittest
-        
-        class IncludedTestCase(unittest.TestCase):
-            def test_something(self):
-                assert True
-        
-        class ExcludedTestCase(unittest.TestCase):
-            def test_something(self):
-                assert True
+import unittest
+
+class IncludedTestCase(unittest.TestCase):
+    def test_something(self):
+        assert True
+
+class ExcludedTestCase(unittest.TestCase):
+    def test_something(self):
+        assert True
         """
     )
     result = testdir.runpytest("-v")
