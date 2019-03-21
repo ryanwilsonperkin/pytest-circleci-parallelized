@@ -43,7 +43,7 @@ class ExcludedTestCase(unittest.TestCase):
         assert True
         """
     )
-    result = testdir.runpytest("--circleci-parallelize", "-v")
+    result = testdir.runpytest("--circleci-parallelize")
     result.stdout.fnmatch_lines(
         ["*collected 2 items", "running 1 items due to CircleCI parallelism"]
     )
@@ -87,7 +87,7 @@ class ExcludedTestCase(unittest.TestCase):
         assert True
         """
     )
-    result = testdir.runpytest("--circleci-parallelize", "-vv")
+    result = testdir.runpytest("--circleci-parallelize", "-v")
     result.stdout.fnmatch_lines(
         ["*collected 2 items", "running 1 items due to CircleCI parallelism: test_with_circleci_parallelize_and_verbose.IncludedTestCase"]
     )
