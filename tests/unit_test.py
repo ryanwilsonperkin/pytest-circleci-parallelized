@@ -69,6 +69,7 @@ class ExcludedTestCase(unittest.TestCase):
     result.stdout.fnmatch_lines(
         ["1 passed*"]
     )
+    assert not any("CircleCI parallelism" in line for line in result.stdout.lines)
     assert result.ret == 0
 
 

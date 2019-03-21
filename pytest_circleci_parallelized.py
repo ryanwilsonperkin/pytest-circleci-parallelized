@@ -27,9 +27,9 @@ def circleci_parallelized_enabled(config):
 def pytest_report_collectionfinish(config, startdir, items):
     if circleci_parallelized_enabled(config):
         verbosity = get_verbosity(config)
-        if verbosity < 1:
+        if verbosity == 0:
             return "running {} items due to CircleCI parallelism".format(len(items))
-        else:
+        elif verbosity > 0:
             return "running {} items due to CircleCI parallelism: {}".format(len(items), ", ".join(map(get_class_name, items)))
     else:
         return ""
