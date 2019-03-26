@@ -30,7 +30,9 @@ def pytest_report_collectionfinish(config, startdir, items):
         if verbosity == 0:
             return "running {} items due to CircleCI parallelism".format(len(items))
         elif verbosity > 0:
-            return "running {} items due to CircleCI parallelism: {}".format(len(items), ", ".join(map(get_class_name, items)))
+            return "running {} items due to CircleCI parallelism: {}".format(
+                len(items), ", ".join(map(get_class_name, items))
+            )
     else:
         return ""
 
