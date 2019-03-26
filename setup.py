@@ -13,7 +13,7 @@ def read(file_name):
 
 setuptools.setup(
     name="pytest-circleci-parallelized",
-    version="0.0.2",
+    version="0.0.3",
     author="Ryan Wilson-Perkin",
     author_email="ryanwilsonperkin@gmail.com",
     license="MIT",

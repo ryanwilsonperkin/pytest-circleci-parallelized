@@ -51,6 +51,51 @@ class ExcludedTestCase(unittest.TestCase):
 
 
 @mock.patch("subprocess.Popen", FakeCircleci)
+def test_with_circleci_parallelize_and_quiet(testdir):
+    testdir.makepyfile(
+        """
+import unittest
+
+class IncludedTestCase(unittest.TestCase):
+    def test_something(self):
+        assert True
+
+class ExcludedTestCase(unittest.TestCase):
+    def test_something(self):
+        assert True
+        """
+    )
+    result = testdir.runpytest("--circleci-parallelize", "-q")
+    result.stdout.fnmatch_lines(
+        ["1 passed*"]
+    )
+    assert not any("CircleCI parallelism" in line for line in result.stdout.lines)
+    assert result.ret == 0
+
+
+@mock.patch("subprocess.Popen", FakeCircleci)
+def test_with_circleci_parallelize_and_verbose(testdir):
+    testdir.makepyfile(
+        """
+import unittest
+
+class IncludedTestCase(unittest.TestCase):
+    def test_something(self):
+        assert True
+
+class ExcludedTestCase(unittest.TestCase):
+    def test_something(self):
+        assert True
+        """
+    )
+    result = testdir.runpytest("--circleci-parallelize", "-v")
+    result.stdout.fnmatch_lines(
+        ["*collected 2 items", "running 1 items due to CircleCI parallelism: test_with_circleci_parallelize_and_verbose.IncludedTestCase"]
+    )
+    assert result.ret == 0
+
+
+@mock.patch("subprocess.Popen", FakeCircleci)
 def test_without_circleci_parallelize(testdir):
     testdir.makepyfile(
         """

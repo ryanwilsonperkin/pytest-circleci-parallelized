@@ -16,13 +16,21 @@ def pytest_addoption(parser):
     )
 
 
+def get_verbosity(config):
+    return config.option.verbose
+
+
 def circleci_parallelized_enabled(config):
     return config.getoption("circleci_parallelize")
 
 
 def pytest_report_collectionfinish(config, startdir, items):
     if circleci_parallelized_enabled(config):
-        return "running {} items due to CircleCI parallelism".format(len(items))
+        verbosity = get_verbosity(config)
+        if verbosity == 0:
+            return "running {} items due to CircleCI parallelism".format(len(items))
+        elif verbosity > 0:
+            return "running {} items due to CircleCI parallelism: {}".format(len(items), ", ".join(map(get_class_name, items)))
     else:
         return ""
 
