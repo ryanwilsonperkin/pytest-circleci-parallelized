@@ -46,3 +46,6 @@ workflows:
           requires:
             - unit-test
             - integration-test
+          filters:
+            branches:
+              only: master
