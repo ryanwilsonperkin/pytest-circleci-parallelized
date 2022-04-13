@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import collections
 import subprocess
 from typing import DefaultDict, Iterable, List, Optional, Sequence, Union
@@ -32,7 +31,7 @@ def pytest_report_collectionfinish(
     if circleci_parallelized_enabled(config):
         verbosity = get_verbosity(config)
         if verbosity == 0:
-            return "running {} items due to CircleCI parallelism".format(len(items))
+            return f"running {len(items)} items due to CircleCI parallelism"
         elif verbosity > 0:
             class_names = map(get_class_name, items)
             not_null_class_names = (
@@ -56,7 +55,7 @@ def get_class_name(item: pytest.Item) -> Optional[str]:
             break
 
     if class_name:
-        return "{}.{}".format(module_name, class_name)
+        return f"{module_name}.{class_name}"
     else:
         return module_name
 

@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 
 import setuptools
 import os
@@ -7,7 +6,7 @@ import os
 
 def read(file_name: str) -> str:
     file_path = os.path.join(os.path.dirname(__file__), file_name)
-    with open(file_path, "r") as f:
+    with open(file_path) as f:
         return f.read()
 
 
@@ -21,7 +20,7 @@ setuptools.setup(
     description="Parallelize pytest across CircleCI workers.",
     long_description=read("README.md"),
     py_modules=["pytest_circleci_parallelized"],
-    python_requires=">=3.7,
+    python_requires=">=3.7",
     install_requires=["pytest"],
     classifiers=[
         "Framework :: Pytest",

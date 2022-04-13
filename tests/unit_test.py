@@ -1,15 +1,10 @@
-# -*- coding: utf-8 -*-
-try:
-    import mock
-except ImportError:
-    from unittest import mock  # type: ignore
-
+from unittest import mock
 from typing import Any, Sequence, Tuple
 
 from py.path import local as LocalPath
 
 
-class FakeCircleci(object):
+class FakeCircleci:
     def __init__(self, args: Sequence[str], **kwargs: Any) -> None:
         self.args = args
 
