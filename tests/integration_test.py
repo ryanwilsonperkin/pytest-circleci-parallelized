@@ -1,4 +1,7 @@
-def test_with_circleci_parallelize(testdir):
+from py.path import local as LocalPath
+
+
+def test_with_circleci_parallelize(testdir: LocalPath) -> None:
     testdir.makepyfile(
         test_fast_slow_classes="""
 import time

@@ -2,14 +2,18 @@
 try:
     import mock
 except ImportError:
-    from unittest import mock
+    from unittest import mock  # type: ignore
+
+from typing import Any, Sequence, Tuple
+
+from py.path import local as LocalPath
 
 
 class FakeCircleci(object):
-    def __init__(self, args, **kwargs):
+    def __init__(self, args: Sequence[str], **kwargs: Any) -> None:
         self.args = args
 
-    def communicate(self, stdin):
+    def communicate(self, stdin: bytes) -> Tuple[bytes, bytes]:
         lines = []
         for line in stdin.decode("utf-8").split():
             if "IncludedTestCase" in line:
@@ -17,7 +21,7 @@ class FakeCircleci(object):
         return "\n".join(lines).encode("utf-8"), b""
 
 
-def test_help_message(testdir):
+def test_help_message(testdir: LocalPath) -> None:
     result = testdir.runpytest("--help")
     result.stdout.fnmatch_lines(
         [
@@ -29,7 +33,7 @@ def test_help_message(testdir):
 
 
 @mock.patch("subprocess.Popen", FakeCircleci)
-def test_with_circleci_parallelize(testdir):
+def test_with_circleci_parallelize(testdir: LocalPath) -> None:
     testdir.makepyfile(
         """
 import unittest
@@ -51,7 +55,7 @@ class ExcludedTestCase(unittest.TestCase):
 
 
 @mock.patch("subprocess.Popen", FakeCircleci)
-def test_with_circleci_parallelize_and_quiet(testdir):
+def test_with_circleci_parallelize_and_quiet(testdir: LocalPath) -> None:
     testdir.makepyfile(
         """
 import unittest
@@ -72,7 +76,7 @@ class ExcludedTestCase(unittest.TestCase):
 
 
 @mock.patch("subprocess.Popen", FakeCircleci)
-def test_with_circleci_parallelize_and_verbose(testdir):
+def test_with_circleci_parallelize_and_verbose(testdir: LocalPath) -> None:
     testdir.makepyfile(
         """
 import unittest
@@ -100,7 +104,7 @@ class ExcludedTestCase(unittest.TestCase):
 
 
 @mock.patch("subprocess.Popen", FakeCircleci)
-def test_without_circleci_parallelize(testdir):
+def test_without_circleci_parallelize(testdir: LocalPath) -> None:
     testdir.makepyfile(
         """
 import unittest

@@ -5,7 +5,7 @@ import setuptools
 import os
 
 
-def read(file_name):
+def read(file_name: str) -> str:
     file_path = os.path.join(os.path.dirname(__file__), file_name)
     with open(file_path, "r") as f:
         return f.read()
