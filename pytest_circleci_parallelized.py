@@ -71,6 +71,16 @@ def filter_tests_with_circleci(test_list):
     ]
 
 
+@pytest.hookimpl(hookwrapper=True)
+def pytest_cmdline_main(config: pytest.Config) -> None:
+    outcome = yield config
+    exit_code = outcome.get_result()
+
+    if circleci_parallelized_enabled(config) and exit_code == pytest.ExitCode.NO_TESTS_COLLECTED:
+        # It is possible that filtering of tests resulted in this worker having nothing to do - that is fine.
+        outcome.force_result(pytest.ExitCode.OK)
+
+
 def pytest_collection_modifyitems(session, config, items):
     if not circleci_parallelized_enabled(config):
         return
