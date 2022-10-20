@@ -72,7 +72,7 @@ def filter_tests_with_circleci(test_list):
 
 
 @pytest.hookimpl(hookwrapper=True)
-def pytest_cmdline_main(config: pytest.Config) -> None:
+def pytest_cmdline_main(config):
     outcome = yield config
     exit_code = outcome.get_result()
 
