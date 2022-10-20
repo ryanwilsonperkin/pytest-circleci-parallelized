@@ -1,27 +1,51 @@
 version: 2.1
 
 jobs:
-  unit-test:
+  unit-test-py2:
     docker:
-      - image: circleci/python:3.7
+      - image: circleci/python:2.7
     steps:
       - checkout
-      - run: sudo pip install tox
-      - run: tox
+      - run: sudo pip install .
+      - run: sudo pip install mock
+      - run: pytest --junitxml=/tmp/test-reports/junit.xml tests/unit_test.py
       - store_artifacts:
           path: /tmp/test-reports
           destination: test-reports
       - store_test_results:
           path: /tmp/test-reports
-          unit-test:
+  
+  unit-test-py3:
+    docker:
+      - image: circleci/python:3.7
+    steps:
+      - checkout
+      - run: sudo pip install .
+      - run: pytest --junitxml=/tmp/test-reports/junit.xml tests/unit_test.py
+      - store_artifacts:
+          path: /tmp/test-reports
+          destination: test-reports
+      - store_test_results:
+          path: /tmp/test-reports
+  
+  lint:
+    docker:
+      - image: circleci/python:3.7
+    steps:
+      - checkout
+      - run: sudo pip install .
+      - run: sudo pip install flake8 black
+      - run: flake8 pytest_circleci_parallelized.py setup.py tests
+      - run: black --check pytest_circleci_parallelized.py setup.py tests
+
   integration-test:
     parallelism: 2
     docker:
       - image: circleci/python:3.7
     steps:
       - checkout
-      - run: sudo pip install tox
-      - run: tox -e integration
+      - run: sudo pip install .
+      - run: pytest tests/integration_test.py
       - store_artifacts:
           path: /tmp/integration-test-reports
           destination: integration-test-reports
@@ -40,12 +64,16 @@ workflows:
   version: 2
   test:
     jobs:
-      - unit-test
+      - unit-test-py2
+      - unit-test-py3
       - integration-test
+      - lint
       - deploy:
           requires:
-            - unit-test
+            - unit-test-py2
+            - unit-test-py3
             - integration-test
+            - lint
           filters:
             branches:
-              only: master
+              only: main

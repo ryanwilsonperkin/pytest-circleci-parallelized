@@ -40,7 +40,7 @@ pip install pytest-circleci-parallelized
 
 ## Contributing
 
-Contributors welcome! Tests can be run with [`tox`][tox]
+Contributors welcome! Tests can be run with [`pytest`][pytest]
 
 ## License
 
@@ -50,7 +50,6 @@ Distributed under the terms of the [MIT](/LICENSE) license, `pytest-circleci-par
 
 If you encounter any problems, please [file an issue](new-issue) along with a detailed description.
 
-[tox]: https://tox.readthedocs.io/en/latest/
 [pypi]: https://pypi.org/project/pytest-circleci-parallelized/
 [new-issue]: https://github.com/ryanwilsonperkin/pytest-circleci-parallelized/issues/new
 [circleci-test-splitting]: https://circleci.com/docs/2.0/parallelism-faster-jobs/
