@@ -50,6 +50,7 @@ Distributed under the terms of the [MIT](/LICENSE) license, `pytest-circleci-par
 
 If you encounter any problems, please [file an issue](new-issue) along with a detailed description.
 
+[pytest]: https://docs.pytest.org/en/7.1.x/
 [pypi]: https://pypi.org/project/pytest-circleci-parallelized/
 [new-issue]: https://github.com/ryanwilsonperkin/pytest-circleci-parallelized/issues/new
 [circleci-test-splitting]: https://circleci.com/docs/2.0/parallelism-faster-jobs/
