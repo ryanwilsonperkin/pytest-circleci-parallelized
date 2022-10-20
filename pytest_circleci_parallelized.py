@@ -76,12 +76,12 @@ def pytest_cmdline_main(config):
     outcome = yield config
     exit_code = outcome.get_result()
 
-    if (
-        circleci_parallelized_enabled(config)
-        and exit_code == pytest.ExitCode.NO_TESTS_COLLECTED
-    ):
-        # Filtering of tests may result in a worker having nothing to do
-        outcome.force_result(pytest.ExitCode.OK)
+    # Exit Code 5 indicates no tests were collected
+    # https://docs.pytest.org/en/7.1.x/reference/exit-codes.html
+    # If there are more workers than tests, this can cause "No Tests" error
+    # This is fine, and we cast it to an OK exit code
+    if circleci_parallelized_enabled(config) and exit_code == 5:
+        outcome.force_result(0)
 
 
 def pytest_collection_modifyitems(session, config, items):
