@@ -76,8 +76,11 @@ def pytest_cmdline_main(config: pytest.Config) -> None:
     outcome = yield config
     exit_code = outcome.get_result()
 
-    if circleci_parallelized_enabled(config) and exit_code == pytest.ExitCode.NO_TESTS_COLLECTED:
-        # It is possible that filtering of tests resulted in this worker having nothing to do - that is fine.
+    if (
+        circleci_parallelized_enabled(config)
+        and exit_code == pytest.ExitCode.NO_TESTS_COLLECTED
+    ):
+        # Filtering of tests may result in a worker having nothing to do
         outcome.force_result(pytest.ExitCode.OK)
 
 
