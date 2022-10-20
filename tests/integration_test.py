@@ -40,3 +40,28 @@ class FastTestCase2(unittest.TestCase):
         assert False, "Test splitting should cause only 1 or 2 items to be run."
 
     assert result.ret == 0
+
+def test_with_fewer_tests_than_runners(testdir):
+    testdir.makepyfile(
+        test_fast_slow_classes="""
+import time
+import unittest
+
+class Test1(unittest.TestCase):
+    def test_something(self):
+        assert True
+
+class Test2(unittest.TestCase):
+    def test_something(self):
+        assert True
+
+        """
+    )
+
+    result = testdir.runpytest(
+        "-v",
+        "--circleci-parallelize",
+        "--junitxml=/tmp/integration-test-reports/junit.xml",
+    )
+    result.stdout.re_match_lines(["Test[12]::test_something PASSED"])
+    assert result.ret == 0
